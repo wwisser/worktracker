@@ -16,6 +16,6 @@ class Record {
   Map<String, dynamic> toJson() => _$RecordToJson(this);
 
   int calcTotalMinutes() {
-    return this.start.difference(this.end).inMinutes - breakMinutes;
+    return this.end.difference(this.start).inMinutes - breakMinutes;
   }
 }

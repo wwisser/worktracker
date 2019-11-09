@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:worktracker/dialog.dart';
+import 'package:worktracker/storage.dart';
 import 'package:worktracker/table.dart';
 
 void main() => runApp(WorkTracker());
@@ -18,7 +19,7 @@ class WorkTracker extends StatelessWidget {
             appBar: AppBar(
               title: Text(TITLE),
             ),
-            body: TableView(),
+            body: TableView(WorkRecordStorage()),
             floatingActionButton: FloatingActionButton(
               onPressed: () => {
                 showDialog(

@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
+import 'package:worktracker/storage.dart';
 
 class TableView extends StatefulWidget {
+  WorkRecordStorage _storage;
+
+  TableView(this._storage);
+
   @override
-  TableViewState createState() => TableViewState();
+  TableViewState createState() => TableViewState(this._storage);
 }
 
 class TableViewState extends State<TableView> {
+  WorkRecordStorage _storage;
+
+  TableViewState(this._storage);
+
   @override
   Widget build(BuildContext context) {
     return FittedBox(
@@ -37,64 +47,28 @@ class TableViewState extends State<TableView> {
   }
 
   List<DataRow> _getDataRows() {
-    return <DataRow>[
-      DataRow(
-        cells: <DataCell>[
-          DataCell(
-            Text('03.11.2019'),
-          ),
-          DataCell(
-            Text('08:00'),
-          ),
-          DataCell(
-            Text('60m'),
-          ),
-          DataCell(
-            Text('17:00'),
-          ),
-          DataCell(
-            Text('8h'),
-          )
-        ],
-      ),
-      DataRow(
-        cells: <DataCell>[
-          DataCell(
-            Text('04.11.2019'),
-          ),
-          DataCell(
-            Text('07:00'),
-          ),
-          DataCell(
-            Text('60m'),
-          ),
-          DataCell(
-            Text('16:00'),
-          ),
-          DataCell(
-            Text('8h'),
-          )
-        ],
-      ),
-      DataRow(
-        cells: <DataCell>[
-          DataCell(
-            Text('03.11.2019'),
-          ),
-          DataCell(
-            Text('09:00'),
-          ),
-          DataCell(
-            Text('60m'),
-          ),
-          DataCell(
-            Text('18:00'),
-          ),
-          DataCell(
-            Text('8h'),
-          )
-        ],
-      ),
-    ];
+    DateFormat hourFormat = DateFormat('HH:mm');
+
+    return this
+        ._storage
+        .getRecords(11)
+        .map((record) => DataRow(cells: <DataCell>[
+              DataCell(
+                Text(DateFormat('dd.MM.yyyy').format(record.start)),
+              ),
+              DataCell(
+                Text(hourFormat.format(record.start)),
+              ),
+              DataCell(
+                Text('${record.breakMinutes}m'),
+              ),
+              DataCell(
+                Text(hourFormat.format(record.end)),
+              ),
+              DataCell(
+                Text('${record.calcTotalMinutes()}m'),
+              )
+            ]))
+        .toList();
   }
 }
