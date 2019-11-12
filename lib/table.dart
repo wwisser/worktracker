@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:worktracker/storage.dart';
+import 'package:worktracker/records.dart';
 
 class TableView extends StatefulWidget {
-  final WorkRecordStorage _storage;
+  final RecordStorage _storage;
 
   TableView(this._storage);
 
@@ -13,7 +13,7 @@ class TableView extends StatefulWidget {
 }
 
 class TableViewState extends State<TableView> {
-  final WorkRecordStorage _storage;
+  final RecordStorage _storage;
 
   TableViewState(this._storage);
 
@@ -51,7 +51,8 @@ class TableViewState extends State<TableView> {
 
     return this
         ._storage
-        .getRecords(11)
+        .getRecordsByYear(2019)
+        .recordsByMonth[11]
         .map((record) => DataRow(cells: <DataCell>[
               DataCell(
                 Text(DateFormat('dd.MM.yyyy').format(record.start)),
