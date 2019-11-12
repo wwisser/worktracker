@@ -13,6 +13,10 @@ class WorkTracker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime now = DateTime.now();
+    final int currentYear = now.year;
+    final int currentMonth = now.month;
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: TITLE,
@@ -28,7 +32,6 @@ class WorkTracker extends StatelessWidget {
                           Navigator.of(context).push(
                             MaterialPageRoute<void>(
                               builder: (BuildContext context) {
-                                final int currentYear = DateTime.now().year;
                                 final List<ListTile> tiles = [];
 
                                 for (int year = currentYear - 3; year <= currentYear; year++) {
@@ -54,7 +57,19 @@ class WorkTracker extends StatelessWidget {
                                                 title: Text(DateFormat(DateFormat.ABBR_MONTH)
                                                     .format(DateTime(now.year, month))),
                                                 trailing: Icon(Icons.arrow_forward_ios),
-                                                onTap: () => {},
+                                                onTap: () => {
+                                                  Navigator.of(context)
+                                                      .push(MaterialPageRoute<void>(builder: (BuildContext context) {
+                                                    return Scaffold(
+                                                        appBar: AppBar(
+                                                          title: Text('$year $month'),
+                                                        ),
+                                                        body: TableView(this
+                                                            ._recordStorage
+                                                            .getRecordsByYear(year)
+                                                            .recordsByMonth[month]));
+                                                  }))
+                                                },
                                               ));
                                             }
 
@@ -63,7 +78,7 @@ class WorkTracker extends StatelessWidget {
 
                                             return Scaffold(
                                               appBar: AppBar(
-                                                title: Text('Monthly Records'),
+                                                title: Text('$year Monthly Records'),
                                               ),
                                               body: ListView(children: divided),
                                             );
@@ -89,7 +104,7 @@ class WorkTracker extends StatelessWidget {
                         }),
               ],
             ),
-            body: TableView(this._recordStorage),
+            body: TableView(this._recordStorage.getRecordsByYear(currentYear).recordsByMonth[currentMonth]),
             floatingActionButton: FloatingActionButton(
               onPressed: () => {showDialog(context: context, builder: (context) => EntryDialog())},
               tooltip: 'New Entry',

@@ -4,18 +4,18 @@ import 'package:intl/intl.dart';
 import 'package:worktracker/records.dart';
 
 class TableView extends StatefulWidget {
-  final RecordStorage _storage;
+  final List<Record> _records;
 
-  TableView(this._storage);
+  TableView(this._records);
 
   @override
-  TableViewState createState() => TableViewState(this._storage);
+  TableViewState createState() => TableViewState(this._records);
 }
 
 class TableViewState extends State<TableView> {
-  final RecordStorage _storage;
+  final List<Record> _records;
 
-  TableViewState(this._storage);
+  TableViewState(this._records);
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +50,7 @@ class TableViewState extends State<TableView> {
     DateFormat hourFormat = DateFormat('HH:mm');
 
     return this
-        ._storage
-        .getRecordsByYear(2019)
-        .recordsByMonth[11]
+        ._records
         .map((record) => DataRow(cells: <DataCell>[
               DataCell(
                 Text(DateFormat('dd.MM.yyyy').format(record.start)),
