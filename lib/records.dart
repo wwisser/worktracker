@@ -56,6 +56,6 @@ class RecordStorage {
   }
 
   YearlyMappedRecord getRecordsByYear(int year) {
-    return this._recordsByYear[year];
+    return this._recordsByYear[year] != null ? this._recordsByYear[year] : YearlyMappedRecord(year, HashMap());
   }
 }

@@ -53,6 +53,15 @@ class WorkTracker extends StatelessWidget {
                                             }
 
                                             for (int month = 1; month <= maxMonth; month++) {
+                                              List<Record> records = this
+                                                  ._recordStorage
+                                                  .getRecordsByYear(year)
+                                                  .recordsByMonth[month];
+
+                                              if (records == null) {
+                                                records = [];
+                                              }
+
                                               tiles.add(ListTile(
                                                 title: Text(DateFormat(DateFormat.ABBR_MONTH)
                                                     .format(DateTime(now.year, month))),
@@ -62,12 +71,10 @@ class WorkTracker extends StatelessWidget {
                                                       .push(MaterialPageRoute<void>(builder: (BuildContext context) {
                                                     return Scaffold(
                                                         appBar: AppBar(
-                                                          title: Text('$year $month'),
+                                                          title: Text(
+                                                              '${DateFormat(DateFormat.ABBR_MONTH).format(DateTime(now.year, month)).toString()} $year'),
                                                         ),
-                                                        body: TableView(this
-                                                            ._recordStorage
-                                                            .getRecordsByYear(year)
-                                                            .recordsByMonth[month]));
+                                                        body: TableView(records));
                                                   }))
                                                 },
                                               ));
