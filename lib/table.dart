@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:worktracker/storage.dart';
 
 class TableView extends StatefulWidget {
-  WorkRecordStorage _storage;
+  final WorkRecordStorage _storage;
 
   TableView(this._storage);
 
@@ -13,7 +13,7 @@ class TableView extends StatefulWidget {
 }
 
 class TableViewState extends State<TableView> {
-  WorkRecordStorage _storage;
+  final WorkRecordStorage _storage;
 
   TableViewState(this._storage);
 
@@ -60,15 +60,32 @@ class TableViewState extends State<TableView> {
                 Text(hourFormat.format(record.start)),
               ),
               DataCell(
-                Text('${record.breakMinutes}m'),
+                Text(this._formatRemainingTime(record.breakMinutes)),
               ),
               DataCell(
                 Text(hourFormat.format(record.end)),
               ),
               DataCell(
-                Text('${record.calcTotalMinutes()}m'),
+                Text(this._formatRemainingTime(record.calcTotalMinutes())),
               )
             ]))
         .toList();
+  }
+
+  String _formatRemainingTime(int minutes) {
+    String result = '';
+
+    int hours = minutes ~/ 60;
+    int minutesRest = minutes - (hours * 60);
+
+    if (hours != 0) {
+      result += '${hours}h';
+    }
+
+    if (minutesRest != 0) {
+      result += '${minutesRest}m';
+    }
+
+    return result;
   }
 }
