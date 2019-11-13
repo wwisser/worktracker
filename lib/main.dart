@@ -53,10 +53,8 @@ class WorkTracker extends StatelessWidget {
                                             }
 
                                             for (int month = 1; month <= maxMonth; month++) {
-                                              List<Record> records = this
-                                                  ._recordStorage
-                                                  .getRecordsByYear(year)
-                                                  .recordsByMonth[month];
+                                              List<Record> records =
+                                                  this._recordStorage.getRecordsByYear(year).recordsByMonth[month];
 
                                               if (records == null) {
                                                 records = [];

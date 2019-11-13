@@ -19,11 +19,12 @@ class TableViewState extends State<TableView> {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-        child: DataTable(
-      columns: _getDataColumns(),
-      rows: _getDataRows(),
-    ));
+    return Align(
+        child: FittedBox(
+            child: this._records.isNotEmpty
+                ? DataTable(columns: _getDataColumns(), rows: _getDataRows())
+                : Padding(child: Text('No entries available.'), padding: EdgeInsets.all(25))),
+        alignment: Alignment.topCenter);
   }
 
   List<DataColumn> _getDataColumns() {
